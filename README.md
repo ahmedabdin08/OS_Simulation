@@ -1,5 +1,5 @@
 # OS_Simulation
-A simulator for various components of a distributed multi-node operating system includes inter-process communication, scheduling algorithms, and clock synchronization across the nodes. Multithreading simulates the multi-node system and priority queues are used for the various scheduling algorithms.
+A simulator for various components of a distributed multi-node operating system includes inter-process communication, scheduling algorithms, and clock synchronization across the nodes. Multithreading simulates the multi-node system and priority queues are used for the various scheduling algorithms. This simulator was developed as part of the course requirements for CSCI3120, taught by Dr. Alex Brodsky.
 
 ## Features
 ### Process primitives: Each process has a set of primitives (pseudo-instructions) 
