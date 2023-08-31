@@ -41,3 +41,10 @@ extern void barrier_done(){
     }
     pthread_mutex_unlock(&barrier->lock);
 }
+
+extern void barrier_destroy(){
+    pthread_mutex_destroy(&barrier->lock);
+    pthread_cond_destroy(&barrier->cond[0]);
+    pthread_cond_destroy(&barrier->cond[1]);
+    free(barrier);
+}

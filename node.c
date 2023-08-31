@@ -7,6 +7,7 @@
 #include "barrier.h"
 #include "process.h"
 #include "scheduler.h"
+#include "communication.h"
 
 //initializing the thread node struct
 static thread_node* initialize_node(){
@@ -29,6 +30,7 @@ extern void* execute_thread(void * arg){
             ptr->next_pid++;
             printProcess(procs[i], ptr);
             insertinq(procs[i], 1, ptr);
+            pthread_mutex_init(&communication_locks[i], NULL);
         }
     }
     barrier_wait();

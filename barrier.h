@@ -20,4 +20,6 @@ extern void barrier_init(unsigned int max);
 extern void barrier_wait();
 //function for when threads no longer need to use the barrier
 extern void barrier_done();
+
+extern void barrier_destroy();
 #endif //OS_FINAL_BARRIER_H

@@ -5,8 +5,7 @@
 #include "communication.h"
 #include <assert.h>
 
-pthread_mutex_t received_lock = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t sender_lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t * communication_locks = NULL;
 //function for finding the processes
 static process * find_proc_from_address(unsigned int address){
     unsigned int id = address % 100, node_id = address/100;
@@ -24,7 +23,7 @@ extern void send(unsigned int receiver_address, thread_node * node, process * se
     process * receiver = find_proc_from_address(receiver_address);
     assert(receiver);
 
-    pthread_mutex_lock(&sender_lock);
+    pthread_mutex_lock(&communication_locks[sender->pid]);
     sender->waiting = 1;
     printProcess(sender, node);
     //ticks here are meant to represent the address of the sender
@@ -34,13 +33,13 @@ extern void send(unsigned int receiver_address, thread_node * node, process * se
         sender->time_done = node->clock + 1;
         receiver->time_done = node->clock + 1;
     }
-    pthread_mutex_unlock(&sender_lock);
+    pthread_mutex_unlock(&communication_locks[sender->pid]);
 }
 extern void receive(unsigned int sender_address, thread_node * node, process * receiver){
     process * sender = find_proc_from_address(sender_address);
     assert(sender);
 
-    pthread_mutex_lock(&received_lock);
+    pthread_mutex_lock(&communication_locks[receiver->pid]);
     receiver->waiting = 1;
     printProcess(receiver, node);
     //ticks here are meant to represent the address of the receiver
@@ -50,7 +49,7 @@ extern void receive(unsigned int sender_address, thread_node * node, process * r
         sender->time_done = node->clock + 1;
         receiver->time_done = node->clock + 1;
     }
-    pthread_mutex_unlock(&received_lock);
+    pthread_mutex_unlock(&communication_locks[receiver->pid]);
 }
 
 //done list for the processes that are unblocked
